@@ -33,16 +33,15 @@ api_url = "https://api.github.com"
 
 
 def github_repo_present(data):
-
     api_key = data['github_auth_key']
 
     del data['state']
     del data['github_auth_key']
 
     headers = {
-        "Authorization": "token {}" . format(api_key)
+        "Authorization": "token {}".format(api_key)
     }
-    url = "{}{}" . format(api_url, '/user/repos')
+    url = "{}{}".format(api_url, '/user/repos')
     result = requests.post(url, json.dumps(data), headers=headers)
 
     if result.status_code == 201:
@@ -57,15 +56,15 @@ def github_repo_present(data):
 
 def github_repo_absent(data=None):
     headers = {
-        "Authorization": "token {}" . format(data['github_auth_key'])
+        "Authorization": "token {}".format(data['github_auth_key'])
     }
-    url = "{}/repos/{}/{}" . format(api_url, "rvm8h", data['name'])
+    url = "{}/repos/{}/{}".format(api_url, "rvm8h", data['name'])
     result = requests.delete(url, headers=headers)
 
     if result.status_code == 204:
         return False, True, {"status": "SUCCESS"}
     if result.status_code == 404:
-    	result = {"status": result.status_code, "data": result.json()}
+        result = {"status": result.status_code, "data": result.json()}
         return False, False, result
     else:
         result = {"status": result.status_code, "data": result.json()}
@@ -73,7 +72,6 @@ def github_repo_absent(data=None):
 
 
 def main():
-
     fields = {
         "github_auth_key": {"required": True, "type": "str"},
         "name": {"required": True, "type": "str"},
